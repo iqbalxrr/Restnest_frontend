@@ -16,8 +16,20 @@ import Textarea from "@/components/ui/Textarea";
 import Input from "@/components/ui/Input";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import {
-  MapPin, BedDouble, Bath, Maximize2, Star,
-  Phone, Mail, Calendar, ChevronLeft, Check
+  BadgeCheck,
+  Bath,
+  BedDouble,
+  Calendar,
+  Check,
+  ChevronRight,
+  Home,
+  ImageIcon,
+  Mail,
+  MapPin,
+  Maximize2,
+  Phone,
+  ShieldCheck,
+  Star,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,17 +86,20 @@ export default function PropertyDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-10 space-y-6">
-        <Skeleton className="h-80 w-full rounded-2xl" />
-        <Skeleton className="h-8 w-1/2" />
-        <Skeleton className="h-4 w-1/3" />
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
+        <Skeleton className="h-8 w-2/5" />
+        <Skeleton className="h-[520px] w-full rounded-3xl" />
+        <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+          <Skeleton className="h-80 w-full rounded-3xl" />
+          <Skeleton className="h-72 w-full rounded-3xl" />
+        </div>
       </div>
     );
   }
 
   if (!property) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-20 text-center text-[var(--muted)]">
+      <div className="mx-auto max-w-7xl px-4 py-20 text-center text-[var(--muted)]">
         Property not found.
         <div className="mt-4"><Link href="/properties"><Button>Back to Properties</Button></Link></div>
       </div>
@@ -94,185 +109,316 @@ export default function PropertyDetailPage() {
   const images = property.images?.length ? property.images : [FALLBACK];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-      {/* Back */}
-      <Link href="/properties" className="inline-flex items-center gap-1 text-sm text-[var(--muted)] hover:text-[var(--primary)] mb-6">
-        <ChevronLeft size={16} /> All Properties
-      </Link>
+    <div className="bg-[#f7f5ef]">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        {/* Breadcrumb */}
+        <nav className="mb-6 flex items-center gap-1.5 text-sm text-[var(--muted)]">
+          <Link href="/" className="transition-colors hover:text-[var(--primary)]">Home</Link>
+          <ChevronRight size={14} />
+          <Link href="/properties" className="transition-colors hover:text-[var(--primary)]">Properties</Link>
+          <ChevronRight size={14} />
+          <span className="max-w-52 truncate text-[var(--foreground)]">{property.title}</span>
+        </nav>
 
-      {/* Image gallery */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-8 rounded-2xl overflow-hidden">
-        <div className="lg:col-span-2 relative h-72 lg:h-96">
-          <SafeImage src={images[activeImage]} fallbackSrc={FALLBACK} alt={property.title} fill className="object-cover" sizes="(max-width:1024px) 100vw,66vw" />
-        </div>
-        {images.length > 1 && (
-          <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
-            {images.slice(1, 3).map((img, i) => (
-              <div
-                key={i}
-                className={`relative h-32 lg:h-full cursor-pointer ${activeImage === i + 1 ? "ring-2 ring-[var(--primary)]" : ""}`}
-                onClick={() => setActiveImage(i + 1)}
-              >
-                <SafeImage src={img} fallbackSrc={FALLBACK} alt={`View ${i + 2}`} fill className="object-cover" sizes="200px" />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-      {images.length > 1 && (
-        <div className="flex gap-2 mb-8">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveImage(i)}
-              className={`w-2.5 h-2.5 rounded-full transition-colors ${activeImage === i ? "bg-[var(--primary)]" : "bg-gray-300"}`}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main info */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* Property heading */}
+        <div className="mb-7 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
           <div>
-            <div className="flex items-start justify-between gap-4">
-              <h1 className="text-2xl lg:text-3xl font-bold leading-tight">{property.title}</h1>
+            <div className="mb-3 flex flex-wrap items-center gap-2">
               <PropertyStatusBadge status={property.status} />
+              <span className="rounded-full border border-[var(--border)] bg-white px-3 py-1 text-xs font-medium">
+                {property.category?.name}
+              </span>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-[var(--primary)]">
+                <BadgeCheck size={15} /> Verified listing
+              </span>
             </div>
-            <div className="flex items-center gap-1.5 text-[var(--muted)] mt-2">
-              <MapPin size={15} />
+            <h1 className="max-w-4xl text-3xl font-bold leading-tight tracking-[-0.03em] sm:text-4xl lg:text-5xl">
+              {property.title}
+            </h1>
+            <div className="mt-3 flex items-center gap-2 text-sm text-[var(--muted)] sm:text-base">
+              <MapPin size={17} className="shrink-0 text-[var(--primary)]" />
               <span>{property.address}, {property.location}</span>
             </div>
           </div>
+          <div className="shrink-0 lg:text-right">
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted)]">Monthly rent</p>
+            <p className="mt-1 text-3xl font-bold text-[var(--primary)]">
+              {formatCurrency(property.price)}
+              <span className="ml-1 text-sm font-normal text-[var(--muted)]">/month</span>
+            </p>
+          </div>
+        </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 p-4 bg-[var(--secondary)] rounded-xl">
-            <div className="text-center">
-              <div className="flex justify-center mb-1"><BedDouble size={20} className="text-[var(--primary)]" /></div>
-              <div className="font-semibold">{property.bedrooms}</div>
-              <div className="text-xs text-[var(--muted)]">Bedrooms</div>
-            </div>
-            <div className="text-center">
-              <div className="flex justify-center mb-1"><Bath size={20} className="text-[var(--primary)]" /></div>
-              <div className="font-semibold">{property.bathrooms}</div>
-              <div className="text-xs text-[var(--muted)]">Bathrooms</div>
-            </div>
-            {property.area && (
-              <div className="text-center">
-                <div className="flex justify-center mb-1"><Maximize2 size={20} className="text-[var(--primary)]" /></div>
-                <div className="font-semibold">{property.area}</div>
-                <div className="text-xs text-[var(--muted)]">sqft</div>
+        {/* Image gallery */}
+        <div className="relative mb-9 overflow-hidden rounded-3xl bg-gray-200 shadow-xl shadow-emerald-950/10">
+          <div className={`grid gap-1.5 ${images.length > 1 ? "lg:grid-cols-[2fr_1fr]" : ""}`}>
+            <button
+              type="button"
+              className="group relative h-80 overflow-hidden text-left sm:h-[430px] lg:h-[520px]"
+              aria-label="View main property image"
+            >
+              <SafeImage
+                src={images[activeImage]}
+                fallbackSrc={FALLBACK}
+                alt={property.title}
+                fill
+                priority
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                sizes="(max-width:1024px) 100vw, 67vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+            </button>
+
+            {images.length > 1 && (
+              <div className="hidden grid-rows-2 gap-1.5 lg:grid">
+                {images.slice(0, 2).map((img, index) => {
+                  const imageIndex = index;
+                  return (
+                    <button
+                      type="button"
+                      key={`${img}-${index}`}
+                      onClick={() => setActiveImage(imageIndex)}
+                      className={`relative overflow-hidden transition-opacity hover:opacity-90 ${
+                        activeImage === imageIndex ? "ring-4 ring-inset ring-white" : ""
+                      }`}
+                    >
+                      <SafeImage
+                        src={img}
+                        fallbackSrc={FALLBACK}
+                        alt={`${property.title} view ${index + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="33vw"
+                      />
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
 
-          {/* Description */}
-          <div>
-            <h2 className="text-lg font-semibold mb-2">Description</h2>
-            <p className="text-[var(--muted)] leading-relaxed">{property.description}</p>
+          <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-black/55 px-3 py-2 text-xs font-medium text-white backdrop-blur-md">
+            <ImageIcon size={14} />
+            {activeImage + 1} / {images.length}
           </div>
 
-          {/* Amenities */}
-          {property.amenities?.length > 0 && (
-            <div>
-              <h2 className="text-lg font-semibold mb-3">Amenities</h2>
-              <div className="flex flex-wrap gap-2">
-                {property.amenities.map((a) => (
-                  <span key={a} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--secondary)] rounded-lg text-sm">
-                    <Check size={13} className="text-[var(--primary)]" /> {a}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Reviews */}
-          {reviews && reviews.length > 0 && (
-            <div>
-              <h2 className="text-lg font-semibold mb-4">Reviews ({reviews.length})</h2>
-              <div className="space-y-4">
-                {reviews.map((r) => (
-                  <div key={r.id} className="p-4 bg-[var(--secondary)] rounded-xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="font-medium text-sm">{r.tenant?.name || "Tenant"}</div>
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} size={12} fill={i < r.rating ? "currentColor" : "none"} className={i < r.rating ? "text-yellow-400" : "text-gray-300"} />
-                        ))}
-                      </div>
-                    </div>
-                    {r.comment && <p className="text-sm text-[var(--muted)]">{r.comment}</p>}
-                    <p className="text-xs text-[var(--muted)] mt-2">{formatDate(r.createdAt)}</p>
-                  </div>
-                ))}
-              </div>
+          {images.length > 1 && (
+            <div className="absolute bottom-4 right-4 flex gap-2 rounded-full bg-black/40 p-2 backdrop-blur-md">
+              {images.map((_, index) => (
+                <button
+                  type="button"
+                  key={index}
+                  aria-label={`Show image ${index + 1}`}
+                  onClick={() => setActiveImage(index)}
+                  className={`h-2 rounded-full transition-all ${
+                    activeImage === index ? "w-6 bg-white" : "w-2 bg-white/50 hover:bg-white/80"
+                  }`}
+                />
+              ))}
             </div>
           )}
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-4">
-          {/* Price card */}
-          <div className="bg-white border border-[var(--border)] rounded-2xl p-6 shadow-sm">
-            <div className="text-3xl font-bold text-[var(--primary)]">
-              {formatCurrency(property.price)}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
+        {/* Main info */}
+        <div className="space-y-6">
+          {/* Stats */}
+          <div className="grid grid-cols-3 overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm">
+            {[
+              { icon: BedDouble, value: property.bedrooms, label: "Bedrooms" },
+              { icon: Bath, value: property.bathrooms, label: "Bathrooms" },
+              { icon: Maximize2, value: property.area || "—", label: "Square feet" },
+            ].map(({ icon: Icon, value, label }, index) => (
+              <div
+                key={label}
+                className={`flex flex-col items-center px-3 py-5 text-center sm:flex-row sm:justify-center sm:gap-3 ${
+                  index > 0 ? "border-l border-[var(--border)]" : ""
+                }`}
+              >
+                <span className="mb-2 grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-[var(--primary)] sm:mb-0">
+                  <Icon size={19} />
+                </span>
+                <span className="sm:text-left">
+                  <span className="block text-lg font-bold">{value}</span>
+                  <span className="block text-[10px] text-[var(--muted)] sm:text-xs">{label}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Description */}
+          <section className="rounded-3xl border border-[var(--border)] bg-white p-6 shadow-sm sm:p-8">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--primary)]">About this home</span>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight">Property overview</h2>
+            <p className="mt-4 leading-7 text-[var(--muted)]">{property.description}</p>
+          </section>
+
+          {/* Amenities */}
+          {property.amenities?.length > 0 && (
+            <section className="rounded-3xl border border-[var(--border)] bg-white p-6 shadow-sm sm:p-8">
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--primary)]">Everything included</span>
+              <h2 className="mt-2 text-2xl font-bold tracking-tight">Amenities</h2>
+              <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {property.amenities.map((amenity) => (
+                  <span
+                    key={amenity}
+                    className="inline-flex items-center gap-2.5 rounded-xl bg-[var(--secondary)] px-3 py-3 text-sm font-medium"
+                  >
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white text-[var(--primary)]">
+                      <Check size={13} strokeWidth={3} />
+                    </span>
+                    {amenity}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Reviews */}
+          <section className="rounded-3xl border border-[var(--border)] bg-white p-6 shadow-sm sm:p-8">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--primary)]">Tenant experiences</span>
+                <h2 className="mt-2 text-2xl font-bold tracking-tight">
+                  Reviews {reviews?.length ? `(${reviews.length})` : ""}
+                </h2>
+              </div>
+              {reviews && reviews.length > 0 && (
+                <div className="flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-700">
+                  <Star size={14} fill="currentColor" />
+                  {(reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)}
+                </div>
+              )}
             </div>
-            <div className="text-sm text-[var(--muted)] mb-5">per month</div>
 
-            {property.status === "AVAILABLE" ? (
-              user?.role === "TENANT" || !user ? (
-                <Button
-                  className="w-full"
-                  size="lg"
-                  onClick={() => {
-                    if (!user) { router.push("/auth/login"); return; }
-                    setRequestOpen(true);
-                  }}
-                >
-                  Request to Rent
-                </Button>
-              ) : (
-                <p className="text-sm text-[var(--muted)] text-center">Only tenants can submit requests.</p>
-              )
+            {reviews && reviews.length > 0 ? (
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {reviews.map((review) => (
+                  <article key={review.id} className="rounded-2xl bg-[var(--secondary)] p-5">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2.5">
+                        <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--primary)] text-sm font-bold text-white">
+                          {(review.tenant?.name || "T").charAt(0).toUpperCase()}
+                        </span>
+                        <div>
+                          <p className="text-sm font-semibold">{review.tenant?.name || "Tenant"}</p>
+                          <p className="text-[11px] text-[var(--muted)]">{formatDate(review.createdAt)}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-0.5">
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Star
+                            key={index}
+                            size={12}
+                            fill={index < review.rating ? "currentColor" : "none"}
+                            className={index < review.rating ? "text-amber-400" : "text-gray-300"}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    {review.comment && <p className="text-sm leading-6 text-[var(--muted)]">{review.comment}</p>}
+                  </article>
+                ))}
+              </div>
             ) : (
-              <Button className="w-full" disabled size="lg">Not Available</Button>
+              <div className="mt-6 rounded-2xl border border-dashed border-[var(--border)] py-9 text-center">
+                <Star size={24} className="mx-auto text-gray-300" />
+                <p className="mt-2 text-sm text-[var(--muted)]">No tenant reviews yet.</p>
+              </div>
             )}
+          </section>
+        </div>
 
-            {!user && (
-              <p className="text-xs text-center text-[var(--muted)] mt-3">
-                <Link href="/auth/login" className="text-[var(--primary)] hover:underline">Login</Link> to submit a request
-              </p>
-            )}
+        {/* Sidebar */}
+        <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+          {/* Price card */}
+          <div className="overflow-hidden rounded-3xl border border-[var(--border)] bg-white shadow-xl shadow-emerald-950/[0.07]">
+            <div className="bg-[#0d3527] p-6 text-white">
+              <p className="text-xs font-bold uppercase tracking-[0.15em] text-white/55">Monthly rent</p>
+              <div className="mt-2 text-3xl font-bold">
+                {formatCurrency(property.price)}
+                <span className="ml-1 text-sm font-normal text-white/55">/month</span>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="mb-5 flex items-start gap-3 rounded-xl bg-emerald-50 p-3">
+                <ShieldCheck size={18} className="mt-0.5 shrink-0 text-[var(--primary)]" />
+                <p className="text-xs leading-5 text-emerald-900/70">
+                  Send a request first. You only pay securely after the landlord approves it.
+                </p>
+              </div>
+
+              {property.status === "AVAILABLE" ? (
+                user?.role === "TENANT" || !user ? (
+                  <Button
+                    className="w-full rounded-xl"
+                    size="lg"
+                    onClick={() => {
+                      if (!user) { router.push("/auth/login"); return; }
+                      setRequestOpen(true);
+                    }}
+                  >
+                    <Calendar size={17} />
+                    Request to rent
+                  </Button>
+                ) : (
+                  <p className="rounded-xl bg-[var(--secondary)] p-3 text-center text-sm text-[var(--muted)]">
+                    Only tenants can submit rental requests.
+                  </p>
+                )
+              ) : (
+                <Button className="w-full" disabled size="lg">Not available</Button>
+              )}
+
+              {!user && (
+                <p className="mt-3 text-center text-xs text-[var(--muted)]">
+                  Already registered?{" "}
+                  <Link href="/auth/login" className="font-semibold text-[var(--primary)] hover:underline">Sign in</Link>
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Landlord */}
           {property.landlord && (
-            <div className="bg-white border border-[var(--border)] rounded-2xl p-5">
-              <h3 className="font-semibold mb-3">Listed by</h3>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-[var(--primary)] text-white rounded-full flex items-center justify-center font-bold text-sm">
+            <div className="rounded-3xl border border-[var(--border)] bg-white p-6 shadow-sm">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="font-semibold">Meet your landlord</h3>
+                <BadgeCheck size={18} className="text-[var(--primary)]" />
+              </div>
+              <div className="mb-5 flex items-center gap-3">
+                <div className="grid h-12 w-12 place-items-center rounded-full bg-[var(--primary)] text-base font-bold text-white">
                   {property.landlord.name.charAt(0)}
                 </div>
                 <div>
-                  <div className="font-medium text-sm">{property.landlord.name}</div>
-                  <div className="text-xs text-[var(--muted)]">Landlord</div>
+                  <div className="font-semibold">{property.landlord.name}</div>
+                  <div className="mt-0.5 text-xs text-[var(--muted)]">Verified property owner</div>
                 </div>
               </div>
-              <div className="space-y-2 text-sm text-[var(--muted)]">
-                <div className="flex items-center gap-2"><Mail size={13} /> {property.landlord.email}</div>
+              <div className="space-y-3 border-t border-[var(--border)] pt-4 text-sm text-[var(--muted)]">
+                <a href={`mailto:${property.landlord.email}`} className="flex items-center gap-2.5 transition-colors hover:text-[var(--primary)]">
+                  <Mail size={14} /> {property.landlord.email}
+                </a>
                 {property.landlord.phone && (
-                  <div className="flex items-center gap-2"><Phone size={13} /> {property.landlord.phone}</div>
+                  <a href={`tel:${property.landlord.phone}`} className="flex items-center gap-2.5 transition-colors hover:text-[var(--primary)]">
+                    <Phone size={14} /> {property.landlord.phone}
+                  </a>
                 )}
               </div>
             </div>
           )}
 
-          {/* Category */}
-          <div className="bg-[var(--secondary)] rounded-xl p-4 text-sm">
-            <span className="text-[var(--muted)]">Category: </span>
-            <span className="font-medium">{property.category?.name}</span>
+          <div className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white p-4 text-sm">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--secondary)] text-[var(--primary)]">
+              <Home size={18} />
+            </span>
+            <div>
+              <span className="block text-xs text-[var(--muted)]">Property type</span>
+              <span className="font-semibold">{property.category?.name}</span>
+            </div>
           </div>
-        </div>
+        </aside>
+      </div>
       </div>
 
       {/* Request Modal */}
