@@ -6,9 +6,11 @@ import { useAuthStore } from "@/store/authStore";
 import Button from "@/components/ui/Button";
 import { Home, Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { useHydration } from "@/hooks/useHydration";
 
 export default function Navbar() {
   const { user, clearAuth } = useAuthStore();
+  const hydrated = useHydration();
   const router = useRouter();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -61,7 +63,7 @@ export default function Navbar() {
 
           {/* Desktop right */}
           <div className="hidden md:flex items-center gap-3">
-            {user ? (
+            {hydrated && user ? (
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -118,7 +120,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen && (
+          {mobileOpen && (
         <div className="md:hidden bg-white border-t border-[var(--border)] px-4 py-4 space-y-3">
           {navLinks.map((link) => (
             <Link
@@ -130,7 +132,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          {user ? (
+          {hydrated && user ? (
             <>
               <Link
                 href={dashboardPath}
