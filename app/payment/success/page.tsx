@@ -1,14 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2 } from "lucide-react";
+import { useConfirmPayment } from "@/hooks/usePayments";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Suspense } from "react";
 
 function SuccessContent() {
   const params = useSearchParams();
   const paymentId = params.get("paymentId");
+  const paymentIntentId = params.get("payment_intent"); // Stripe redirect param
+  const { mutate: confirm } = useConfirmPayment();
+  const [confirmed, setConfirmed] = useState(false);
+
+  useEffect(() => {
+    // If Stripe redirected here with payment_intent, auto-confirm
+    if (paymentIntentId && paymentId && !confirmed) {
+      setConfirmed(true);
+      confirm({ paymentId, transactionId: paymentIntentId });
+    }
+  }, [paymentIntentId, paymentId, confirm, confirmed]);
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4">
@@ -39,5 +52,5 @@ function SuccessContent() {
 }
 
 export default function PaymentSuccessPage() {
-  return <Suspense><SuccessContent /></Suspense>;
+  return <Suspense fallback={<div className="flex justify-center py-20"><Loader2 className="animate-spin text-[var(--primary)]" size={32} /></div>}><SuccessContent /></Suspense>;
 }
