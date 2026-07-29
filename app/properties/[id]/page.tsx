@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
+import SafeImage from "@/components/ui/SafeImage";
 import Link from "next/link";
 import { useState } from "react";
 import { useProperty } from "@/hooks/useProperties";
@@ -103,7 +103,7 @@ export default function PropertyDetailPage() {
       {/* Image gallery */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-8 rounded-2xl overflow-hidden">
         <div className="lg:col-span-2 relative h-72 lg:h-96">
-          <Image src={images[activeImage]} alt={property.title} fill className="object-cover" sizes="(max-width:1024px) 100vw,66vw" />
+          <SafeImage src={images[activeImage]} fallbackSrc={FALLBACK} alt={property.title} fill className="object-cover" sizes="(max-width:1024px) 100vw,66vw" />
         </div>
         {images.length > 1 && (
           <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
@@ -113,7 +113,7 @@ export default function PropertyDetailPage() {
                 className={`relative h-32 lg:h-full cursor-pointer ${activeImage === i + 1 ? "ring-2 ring-[var(--primary)]" : ""}`}
                 onClick={() => setActiveImage(i + 1)}
               >
-                <Image src={img} alt={`View ${i + 2}`} fill className="object-cover" sizes="200px" />
+                <SafeImage src={img} fallbackSrc={FALLBACK} alt={`View ${i + 2}`} fill className="object-cover" sizes="200px" />
               </div>
             ))}
           </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import SafeImage from "@/components/ui/SafeImage";
 import { Property } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils";
 import { PropertyStatusBadge } from "@/components/ui/Badge";
@@ -18,8 +18,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
     <Link href={`/properties/${property.id}`} className="group block">
       <div className="bg-white rounded-xl border border-[var(--border)] overflow-hidden hover:shadow-md transition-shadow">
         <div className="relative h-52 overflow-hidden">
-          <Image
+          <SafeImage
             src={image}
+            fallbackSrc={FALLBACK_IMAGE}
             alt={property.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import SafeImage from "@/components/ui/SafeImage";
 import { useLandlordProperties, useDeleteProperty } from "@/hooks/useProperties";
 import { PropertyStatusBadge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -48,7 +48,7 @@ export default function LandlordPropertiesPage() {
           {propsArr.map((p) => (
             <div key={p.id} className="bg-white rounded-xl border border-[var(--border)] overflow-hidden flex">
               <div className="relative w-32 flex-shrink-0">
-                <Image
+                <SafeImage
                   src={p.images?.[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=300&q=60"}
                   alt={p.title}
                   fill
