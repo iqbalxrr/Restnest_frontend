@@ -16,7 +16,7 @@ function parseJwt(token: string): { role?: string } | null {
   }
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const protectedPrefix = "/dashboard";
@@ -54,3 +54,6 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: ["/dashboard/:path*"],
 };
+
+// Keep backward-compat export alias
+export { proxy as middleware };
