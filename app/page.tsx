@@ -61,7 +61,7 @@ export default function HomePage() {
         <div className="hero-glow hero-glow-delayed absolute right-10 top-24 h-72 w-72 rounded-full bg-amber-300/10 blur-3xl" />
 
         <div className="relative mx-auto flex min-h-[680px] max-w-7xl items-center px-4 pb-44 pt-20 sm:px-6 lg:min-h-[760px] lg:px-8 lg:pb-48">
-          <div className="max-w-3xl">
+          <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold tracking-wide text-white/90 backdrop-blur-md">
               <Sparkles size={14} className="text-amber-300" />
               Bangladesh&apos;s smarter rental marketplace
@@ -72,12 +72,12 @@ export default function HomePage() {
               <span className="block text-[#f0cc74]">a place to belong.</span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-7 text-white/75 sm:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/75 sm:text-lg">
               Discover verified homes, connect directly with trusted landlords,
               and complete your rental securely—all from one beautiful platform.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link href="/properties">
                 <Button
                   variant="secondary"
@@ -98,7 +98,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-white/70">
+            <div className="mt-9 flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs font-medium text-white/70">
               {["Verified listings", "Secure payments", "Direct landlord contact"].map(
                 (item) => (
                   <span key={item} className="flex items-center gap-2">
