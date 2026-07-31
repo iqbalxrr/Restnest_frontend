@@ -8,17 +8,8 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils";
+import { normalizeRentals } from "@/lib/normalize";
 import { Building2, ClipboardList, TrendingUp, PlusCircle, ArrowRight } from "lucide-react";
-import { RentalRequest } from "@/lib/types";
-
-function normalizeRentals(data: unknown): RentalRequest[] {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  const d = data as Record<string, unknown>;
-  if (d.rentalRequests) return d.rentalRequests as RentalRequest[];
-  if (d.requests) return d.requests as RentalRequest[];
-  return [];
-}
 
 export default function LandlordDashboard() {
   const { data: properties = [], isLoading: propsLoading } = useLandlordProperties();

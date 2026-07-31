@@ -5,17 +5,8 @@ import { RentalStatusBadge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import { formatDate } from "@/lib/utils";
-import { RentalRequest } from "@/lib/types";
+import { normalizeRentals } from "@/lib/normalize";
 import { CheckCircle2, XCircle, Calendar } from "lucide-react";
-
-function normalizeRentals(data: unknown): RentalRequest[] {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  const d = data as Record<string, unknown>;
-  if (d.rentalRequests) return d.rentalRequests as RentalRequest[];
-  if (d.requests) return d.requests as RentalRequest[];
-  return [];
-}
 
 export default function LandlordRequestsPage() {
   const { data: raw, isLoading } = useLandlordRequests();

@@ -9,22 +9,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { ClipboardList, CreditCard, Home, ArrowRight } from "lucide-react";
+import { normalizeRentals } from "@/lib/normalize";
 import { RentalRequest } from "@/lib/types";
-
-function normalize(data: unknown): RentalRequest[] {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  const d = data as Record<string, unknown>;
-  if (d.rentalRequests) return d.rentalRequests as RentalRequest[];
-  if (d.requests) return d.requests as RentalRequest[];
-  return [];
-}
 
 export default function TenantDashboard() {
   const { data: rentalsRaw, isLoading: rentalsLoading } = useMyRentals();
   const { data: paymentsRaw, isLoading: paymentsLoading } = useMyPayments();
 
-  const rentals = normalize(rentalsRaw);
+  const rentals = normalizeRentals(rentalsRaw);
   const payments = Array.isArray(paymentsRaw) ? paymentsRaw : [];
 
   const pending = rentals.filter((r) => r.status === "PENDING").length;

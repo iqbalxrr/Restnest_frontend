@@ -11,6 +11,7 @@ interface CreateRentalData {
 }
 
 interface RentalsResult {
+  rentals?: RentalRequest[];
   rentalRequests?: RentalRequest[];
   requests?: RentalRequest[];
   meta?: PaginationMeta;
@@ -61,9 +62,19 @@ export function useUpdateRequestStatus() {
     onMutate: async ({ id, status }) => {
       await qc.cancelQueries({ queryKey: ["landlord-requests"] });
       const prev = qc.getQueryData(["landlord-requests"]);
-      qc.setQueryData(["landlord-requests", undefined], (old: RentalRequest[] | undefined) => {
+      // Optimistically update common query shapes used by the landlord requests page
+      qc.setQueriesData({ queryKey: ["landlord-requests"] }, (old: unknown) => {
         if (!old) return old;
-        return old.map((r) => (r.id === id ? { ...r, status } : r));
+        if (Array.isArray(old)) {
+          return (old as RentalRequest[]).map((r) => (r.id === id ? { ...r, status } : r));
+        }
+        const data = old as { rentals?: RentalRequest[]; rentalRequests?: RentalRequest[]; requests?: RentalRequest[] };
+        const key = data.rentals ? "rentals" : data.rentalRequests ? "rentalRequests" : data.requests ? "requests" : null;
+        if (!key) return old;
+        return {
+          ...data,
+          [key]: (data[key] as RentalRequest[]).map((r) => (r.id === id ? { ...r, status } : r)),
+        };
       });
       return { prev };
     },

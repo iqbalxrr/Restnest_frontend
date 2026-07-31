@@ -4,11 +4,11 @@ import { useAdminProperties } from "@/hooks/useAdmin";
 import { PropertyStatusBadge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { Property } from "@/lib/types";
+import { normalizeProperties } from "@/lib/normalize";
 
 export default function AdminPropertiesPage() {
   const { data, isLoading } = useAdminProperties();
-  const properties: Property[] = data?.properties || [];
+  const properties = normalizeProperties(data);
 
   return (
     <div className="space-y-6">

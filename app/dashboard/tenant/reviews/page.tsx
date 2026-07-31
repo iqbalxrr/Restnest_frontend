@@ -2,6 +2,7 @@
 
 import { useMyRentals } from "@/hooks/useRentals";
 import { useCreateReview } from "@/hooks/useReviews";
+import { normalizeRentals } from "@/lib/normalize";
 import { RentalRequest } from "@/lib/types";
 import { Skeleton } from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
@@ -9,15 +10,6 @@ import Textarea from "@/components/ui/Textarea";
 import { Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-
-function normalize(data: unknown): RentalRequest[] {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  const d = data as Record<string, unknown>;
-  if (d.rentalRequests) return d.rentalRequests as RentalRequest[];
-  if (d.requests) return d.requests as RentalRequest[];
-  return [];
-}
 
 function ReviewForm({ rental }: { rental: RentalRequest }) {
   const [rating, setRating] = useState(0);
@@ -70,7 +62,7 @@ function ReviewForm({ rental }: { rental: RentalRequest }) {
 
 export default function TenantReviewsPage() {
   const { data: raw, isLoading } = useMyRentals();
-  const rentals = normalize(raw);
+  const rentals = normalizeRentals(raw);
   const reviewable = rentals.filter((r) => r.status === "ACTIVE" || r.status === "COMPLETED");
 
   return (

@@ -25,14 +25,23 @@ export function useAdminUsers(page = 1, limit = 10) {
 export function useAdminProperties() {
   return useQuery({
     queryKey: ["admin-properties"],
-    queryFn: () => api.get<{ properties: Property[]; meta: PaginationMeta }>("/admin/properties"),
+    queryFn: () => api.get<Property[] | { properties: Property[]; meta?: PaginationMeta }>("/admin/properties"),
   });
 }
 
 export function useAdminRentals() {
   return useQuery({
     queryKey: ["admin-rentals"],
-    queryFn: () => api.get<{ rentalRequests?: RentalRequest[]; requests?: RentalRequest[]; meta?: PaginationMeta }>("/admin/rentals"),
+    queryFn: () =>
+      api.get<
+        | RentalRequest[]
+        | {
+            rentals?: RentalRequest[];
+            rentalRequests?: RentalRequest[];
+            requests?: RentalRequest[];
+            meta?: PaginationMeta;
+          }
+      >("/admin/rentals"),
   });
 }
 

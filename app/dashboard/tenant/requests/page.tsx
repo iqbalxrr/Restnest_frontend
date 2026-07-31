@@ -6,21 +6,12 @@ import { RentalStatusBadge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { RentalRequest } from "@/lib/types";
+import { normalizeRentals } from "@/lib/normalize";
 import { Calendar } from "lucide-react";
-
-function normalize(data: unknown): RentalRequest[] {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  const d = data as Record<string, unknown>;
-  if (d.rentalRequests) return d.rentalRequests as RentalRequest[];
-  if (d.requests) return d.requests as RentalRequest[];
-  return [];
-}
 
 export default function TenantRequestsPage() {
   const { data: raw, isLoading } = useMyRentals();
-  const rentals = normalize(raw);
+  const rentals = normalizeRentals(raw);
 
   return (
     <div className="space-y-6">
