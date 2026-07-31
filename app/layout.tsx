@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import SiteChrome from "@/components/layout/SiteChrome";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
@@ -20,9 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryProvider>
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
           <Toaster position="top-right" richColors />
         </QueryProvider>
       </body>
