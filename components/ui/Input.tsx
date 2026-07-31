@@ -8,14 +8,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, hint, id, ...props }, ref) => {
+  ({ className, label, error, hint, id, required, ...props }, ref) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
     return (
       <div className="flex flex-col gap-1">
         {label && (
           <label htmlFor={inputId} className="text-sm font-medium text-[var(--foreground)]">
             {label}
-            {props.required && <span className="text-red-500 ml-0.5">*</span>}
+            {required && <span className="text-red-500 ml-0.5">*</span>}
           </label>
         )}
         <input

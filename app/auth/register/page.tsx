@@ -69,7 +69,7 @@ export default function RegisterPage() {
           </div>
           {errors.role && <p className="text-xs text-red-500 mb-4">{errors.role.message}</p>}
 
-          <form onSubmit={handleSubmit((data) => register(data))} className="space-y-4">
+          <form noValidate onSubmit={handleSubmit((data) => register(data))} className="space-y-4">
             <Input
               label="Full Name"
               placeholder="John Doe"

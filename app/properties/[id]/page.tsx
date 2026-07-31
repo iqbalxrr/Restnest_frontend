@@ -423,7 +423,7 @@ export default function PropertyDetailPage() {
 
       {/* Request Modal */}
       <Modal open={requestOpen} onClose={() => setRequestOpen(false)} title="Submit Rental Request">
-        <form onSubmit={handleSubmit(onSubmitRequest)} className="space-y-4">
+        <form noValidate onSubmit={handleSubmit(onSubmitRequest)} className="space-y-4">
           <div className="p-3 bg-[var(--secondary)] rounded-lg text-sm">
             <div className="font-medium">{property.title}</div>
             <div className="text-[var(--muted)]">{formatCurrency(property.price)}/month</div>

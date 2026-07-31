@@ -38,7 +38,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-[var(--border)] p-8">
-          <form onSubmit={handleSubmit((data) => login(data))} className="space-y-5">
+          <form noValidate onSubmit={handleSubmit((data) => login(data))} className="space-y-5">
             <Input
               label="Email"
               type="email"

@@ -88,7 +88,7 @@ export default function PropertyForm({ onSubmit, loading, defaultValues, isEdit 
   const removeAmenity = (i: number) => setAmenities(amenities.filter((_, idx) => idx !== i));
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-5">
+    <form noValidate onSubmit={handleSubmit(handleFormSubmit)} className="space-y-5">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="md:col-span-2">
           <Input label="Title" required placeholder="Modern 2BR Apartment in Gulshan" error={errors.title?.message} {...register("title")} />
