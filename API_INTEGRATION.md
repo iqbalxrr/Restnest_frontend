@@ -2,7 +2,7 @@
 
 > RentNest Frontend → RentNest Backend API
 
-**Backend Base URL:** `NEXT_PUBLIC_API_URL` (default: `http://localhost:5000`)
+**Backend Base URL:** `NEXT_PUBLIC_API_URL` (default: `https://assginment-04.vercel.app`)
 
 All endpoints are prefixed with `/api`.
 

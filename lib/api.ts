@@ -1,6 +1,6 @@
 import { ApiResponse } from "./types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://assginment-04.vercel.app";
 
 function getToken(): string | null {
   if (typeof document === "undefined") return null;

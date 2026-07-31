@@ -9,8 +9,8 @@ A modern, fully responsive Next.js 15 rental property marketplace frontend consu
 | Resource | URL |
 |---|---|
 | Frontend | *Deploy to Vercel — set `NEXT_PUBLIC_API_URL`* |
-| Backend API | *Your deployed backend URL* |
-| API Docs | `http://localhost:5000/api-docs` |
+| Backend API | https://assginment-04.vercel.app |
+| API Docs | https://assginment-04.vercel.app/api-docs |
 
 ## Admin Credentials
 
@@ -69,7 +69,7 @@ components/
 ### Prerequisites
 
 - Node.js 18+
-- RentNest Backend running at `http://localhost:5000`
+- Backend API at `https://assginment-04.vercel.app` (or local `http://localhost:5000`)
 
 ### Setup
 
