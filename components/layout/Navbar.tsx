@@ -35,12 +35,14 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-[var(--border)]">
+    <nav className="sticky top-0 z-40 border-b border-[var(--border)] bg-white/85 shadow-sm shadow-emerald-950/[0.03] backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-[var(--primary)]">
-            <Home size={22} />
+          <Link href="/" className="flex items-center gap-2.5 font-bold text-xl text-[var(--primary)]">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--primary)] text-white shadow-sm">
+              <Home size={18} />
+            </span>
             RentNest
           </Link>
 
